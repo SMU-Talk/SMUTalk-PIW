@@ -1,19 +1,16 @@
 # SMU Talk
 
-상명대학교 공지 데이터를 활용하는 챗봇 웹앱입니다. 이 버전은 외부 제공을 염두에 두고 기존 표준 라이브러리 HTTP 서버를 FastAPI 기반 서비스로 교체했습니다.
-
+상명대학교 공지 데이터를 활용하는  FastAPI 기반 챗봇 서비스입니다. 
 ## 주요 변경점
 
 - FastAPI + Uvicorn 기반 API 서버
 - 안전한 정적 파일 서빙
 - `/health`, `/health/full` 운영 점검 API
 - CORS 허용 origin 환경변수화
-- 요청 body 크기 제한
 - 로그인/게스트/채팅 API rate limit
 - 운영용 세션 쿠키 옵션(`HttpOnly`, `SameSite=Lax`, 선택적 `Secure`)
 - 기본 개발 시크릿 사용 경고 및 운영 시 강제 실패 옵션
 - SQLite WAL, 외래키, 인덱스 적용
-- 기존 프론트엔드 API 호환 유지
 
 ## 설치
 
@@ -159,61 +156,7 @@ Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/api/rag/status
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/health/full
 ```
 
-## API
 
-## Qwen3 4B vector search setup
-
-The E1 artifact already contains document vectors:
-
-```text
-qwen3_e1/embeddings.npy
-qwen3_e1/chunks.jsonl
-qwen3_e1/manifest.json
-```
-
-For real vector search, the server also needs the same embedding model to encode
-each user question. Put the model in `models/Qwen3-Embedding-4B`, or set:
-
-```powershell
-$env:SMU_E1_MODEL_DIR="C:\path\to\Qwen3-Embedding-4B"
-$env:SMU_E1_ENABLE_VECTOR="true"
-python -X utf8 app.py
-```
-
-If the server can access Hugging Face, you can download the model once:
-
-```powershell
-python scripts\download_e1_model.py
-```
-
-After the model is available, `/api/rag/status` should show:
-
-```json
-{
-  "mode": "qwen3_e1_vector",
-  "e1_vector_ready": true,
-  "e1_embedding_shape": [122799, 2560]
-}
-```
-
-Without the model, the app still answers through SQLite FTS over `chunks.jsonl`.
-That fallback is useful, but it is keyword search rather than semantic vector
-search.
-
-- `GET /api/me`
-- `GET /api/history`
-- `GET /api/rag/status`
-- `POST /api/rag/reload`
-- `POST /api/register`
-- `POST /api/login`
-- `POST /api/guest`
-- `POST /api/logout`
-- `POST /api/clear`
-- `POST /api/chat`
-- `GET /health`
-- `GET /health/full`
-
-기존 정적 프론트엔드가 그대로 동작하도록 응답 형태는 유지했습니다.
 
 ## 배포 참고
 
