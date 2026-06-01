@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SMU Talk</title>
+    <link rel="icon" type="image/png" href="/assets/SMU.png" />
+    <link rel="stylesheet" href="/styles.css?v=20260601-sidebar-hover-auth" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <img class="brand-icon" src="/assets/SMU.png" alt="상명대학교 챗봇 아이콘" />
+          <div class="brand-copy">
+            <strong>SMU Talk</strong>
+            <span>상명대학교 AI 챗봇</span>
+          </div>
+        </div>
+
+        <div class="session-row">
+          <div class="guest-note" id="guestNote">게스트 모드로 이용 중</div>
+          <button class="login-button session-login" type="button" id="openAuthButton" data-open-auth>로그인</button>
+        </div>
+
+        <nav class="sidebar-menu" aria-label="상명대학교 주요 메뉴">
+          <button type="button" data-prompt="상명대학교를 소개해줘">상명소개</button>
+          <button type="button" data-prompt="입학 전형은 어떻게 확인하면 되나요?">입학안내</button>
+          <button type="button" data-prompt="대학과 대학원 정보를 어디서 볼 수 있나요?">대학ㆍ대학원</button>
+          <button type="button" data-prompt="연구와 산학협력 관련 정보를 알려줘">연구ㆍ산학</button>
+          <button type="button" data-prompt="수강신청과 휴학 절차를 알려줘">학사안내</button>
+          <button type="button" data-prompt="도서관과 학생 생활 정보를 알려줘">대학생활</button>
+        </nav>
+
+        <nav class="sidebar-links" aria-label="상명대학교 바로가기">
+          <a href="https://ecampus.smu.ac.kr/" target="_blank" rel="noopener noreferrer">E-campus</a>
+          <a href="https://www.smu.ac.kr/" target="_blank" rel="noopener noreferrer">홈페이지</a>
+        </nav>
+      </aside>
+
+      <section class="chat-area">
+        <header class="chat-header">
+          <div>
+            <span class="eyebrow">SMU chatbot service</span>
+            <div class="title-row">
+              <h1>무엇을 도와드릴까요?</h1>
+              <button class="header-clear" type="button" id="clearButton">대화 지우기</button>
+            </div>
+          </div>
+          <div class="header-actions">
+            <span class="status-pill" id="statusPill">게스트 모드</span>
+          </div>
+        </header>
+
+        <div class="messages" id="messages" aria-live="polite">
+          <article class="message assistant">
+            <div class="avatar">
+              <img src="/assets/SMU.png" alt="" />
+            </div>
+            <div class="bubble">
+              안녕하세요. SMU Talk입니다. 현재 게스트 모드로 이용 중입니다. 입학, 학사, 장학금, 캠퍼스, 도서관, 포털 관련 질문을 입력해 주세요.
+            </div>
+          </article>
+        </div>
+
+        <form class="composer" id="chatForm">
+          <textarea
+            id="messageInput"
+            name="message"
+            rows="1"
+            placeholder="상명대학교에 대해 질문해 보세요"
+          ></textarea>
+          <button class="send-button" type="submit" aria-label="전송">
+            <span>전송</span>
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <section class="auth-modal is-hidden" id="authModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-auth></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+        <button class="modal-close" type="button" aria-label="닫기" data-close-auth>×</button>
+        <div class="modal-heading">
+          <img src="/assets/SMU.png" alt="" />
+          <div>
+            <span class="eyebrow">SMU account</span>
+            <h2 id="authTitle">로그인</h2>
+          </div>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="인증 방식">
+          <button class="tab is-active" type="button" data-auth-tab="login">로그인</button>
+          <button class="tab" type="button" data-auth-tab="register">회원가입</button>
+        </div>
+
+        <form class="auth-form is-active" id="loginForm">
+          <label>
+            아이디
+            <input name="username" autocomplete="username" minlength="3" required />
+          </label>
+          <label>
+            비밀번호
+            <input name="password" type="password" autocomplete="current-password" minlength="6" required />
+          </label>
+          <button class="primary-button" type="submit">로그인</button>
+        </form>
+
+        <form class="auth-form" id="registerForm">
+          <label>
+            이름
+            <input name="displayName" autocomplete="name" required />
+          </label>
+          <label>
+            아이디
+            <input name="username" autocomplete="username" minlength="3" required />
+          </label>
+          <label>
+            비밀번호
+            <input name="password" type="password" autocomplete="new-password" minlength="6" required />
+          </label>
+          <button class="primary-button" type="submit">계정 만들기</button>
+        </form>
+
+        <div class="modal-footer">
+          <button class="text-button" type="button" id="guestModeButton">게스트 모드로 이용</button>
+          <p class="modal-caption">로그인하지 않아도 게스트 모드로 계속 이용할 수 있습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="/app.js?v=20260601-menu-guide"></script>
+  </body>
+</html>
